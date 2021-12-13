@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "895343404696",
+    "project_id": "estragam-b0106",
+    "storage_bucket": "estragam-b0106.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:895343404696:android:f995f2d1acdb5856d492ed",
+        "android_client_info": {
+          "package_name": "ipca.example.estragame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "895343404696-0ib816anm9o163hnfbdrhn2sb8k6q2ri.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjek1vNlSiR-G5E4U758_C-8s54iZjseQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "895343404696-0ib816anm9o163hnfbdrhn2sb8k6q2ri.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
