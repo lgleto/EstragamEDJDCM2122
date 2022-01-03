@@ -71,7 +71,7 @@ class PhotoFragment : Fragment() {
                     "user" to FirebaseAuth.getInstance().currentUser?.uid
                 )
 
-                db.collection("posts")
+                db.collection(FirebaseAuth.getInstance().uid.toString())
                     .add(post)
                     .addOnSuccessListener { documentReference ->
                         findNavController().popBackStack()
