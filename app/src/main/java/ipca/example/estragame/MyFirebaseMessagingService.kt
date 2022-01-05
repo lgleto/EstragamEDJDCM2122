@@ -11,21 +11,34 @@ import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
+import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import java.util.*
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Log.d(TAG, "From: ${remoteMessage.from}")
-        if (remoteMessage.data.isNotEmpty()) {
-            Log.d(TAG, "Message data payload: ${remoteMessage.data}")
-            sendNotification(remoteMessage.data.toString())
-        }
+        //if (remoteMessage.data.isNotEmpty()) {
+        //    Log.d(TAG, "Message data payload: ${remoteMessage.data}")
+        //    sendNotification(remoteMessage.data.toString())
+        //}
 
         remoteMessage.notification?.let {
             Log.d(TAG, "Message Notification Body: ${it.body}")
+            sendNotification(it.body.toString())
+            broadcastContentMessage(applicationContext, it.body.toString())
         }
+    }
+
+    fun broadcastContentMessage(context:Context, message:String){
+        val intent = Intent(BROADCAST_NET_NOTIFICATION)
+        intent.putExtra(NOTIFICATION_MESSAGE, message)
+        context.sendBroadcast(intent)
     }
 
     override fun onNewToken(token: String) {
@@ -37,6 +50,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     private fun sendRegistrationToServer(token: String?) {
         Log.d(TAG, "sendRegistrationTokenToServer($token)")
+        val db = Firebase.firestore
+        val token = hashMapOf(
+            "token" to token,
+        )
+        db.collection("users/${FirebaseAuth.getInstance().uid.toString()}/tokens")
+            .add(token)
     }
 
     /**
@@ -76,5 +95,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     companion object {
 
         private const val TAG = "MyFirebaseMsgService"
+        const val BROADCAST_NET_NOTIFICATION = "ipca.example.estragame.notification"
+        const val NOTIFICATION_MESSAGE = "ipca.example.estragame.notification.message"
     }
 }

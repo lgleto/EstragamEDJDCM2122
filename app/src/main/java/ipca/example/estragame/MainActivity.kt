@@ -1,6 +1,11 @@
 package ipca.example.estragame
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
+import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -20,6 +25,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     val db = Firebase.firestore
+
+    var notificationReceiver : NotificationReceiver? = null
+
+    inner class NotificationReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            intent?.extras?.getString(MyFirebaseMessagingService.NOTIFICATION_MESSAGE)?.let {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +68,8 @@ class MainActivity : AppCompatActivity() {
             .document(FirebaseAuth.getInstance().uid.toString())
             .set(user)
 
-
+        notificationReceiver = NotificationReceiver()
+        this.registerReceiver(notificationReceiver, IntentFilter(MyFirebaseMessagingService.BROADCAST_NET_NOTIFICATION))
     }
 
     override fun onPause() {
@@ -65,6 +82,10 @@ class MainActivity : AppCompatActivity() {
         db.collection("users")
             .document(FirebaseAuth.getInstance().uid.toString())
             .set(user)
+
+        notificationReceiver?.let {
+            this.unregisterReceiver(it)
+        }
 
     }
 }
