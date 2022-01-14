@@ -26,6 +26,14 @@ class PhotoFragment : Fragment() {
     private lateinit var binding : FragmentPhotoBinding
 
     private var bitmap : Bitmap? = null
+    private var postId : String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let{
+            postId = it.getString("post_id")
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +45,10 @@ class PhotoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        postId?.let{
+
+        }
 
         binding.fabTakePhoto.setOnClickListener {
             Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
@@ -70,7 +82,7 @@ class PhotoFragment : Fragment() {
                     "date" to Timestamp(Date()),
                     "user" to FirebaseAuth.getInstance().currentUser?.uid
                 )
-
+db.collection("user/${FirebaseAuth.getInstance().uid}/carrinho")
                 db.collection(FirebaseAuth.getInstance().uid.toString())
                     .add(post)
                     .addOnSuccessListener { documentReference ->
@@ -81,6 +93,7 @@ class PhotoFragment : Fragment() {
                     }
             }
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

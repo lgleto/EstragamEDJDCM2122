@@ -3,34 +3,32 @@ package ipca.example.estragame.ui
 import com.google.firebase.Timestamp
 import kotlin.collections.HashMap
 
-class Post {
+class User {
 
-    var id : String? = null
-    var description : String? = null
+    var name : String? = null
     var photo : String? = null
     var date : Timestamp? = null
-    var user : String? = null
-
+    var online : Boolean? = null
 
     fun toHashMap() : HashMap<String, Comparable<Any>?> {
         val post = hashMapOf(
-            "description" to description,
-            "photo"       to photo,
-            "date"        to date,
-            "user"        to user
+            "name"    to name,
+            "photo"   to photo,
+            "date"    to date,
+            "online"  to online
         )
 
         return post as HashMap<String, Comparable<Any>?>
     }
 
     companion object {
-        fun fromHashMap(id : String, hash: Map<String, Any>) : Post {
-            val post = Post()
-            post.id = id
-            post.description = hash["description"] as String?
+        fun fromHashMap(hash: Map<String, Any>) : User {
+            var post = User()
+
+            post.name = hash["name"] as String?
             post.photo = hash["photo"] as String?
             post.date = hash["date"] as Timestamp?
-            post.user = hash["user"] as String?
+            post.online = hash["online"] as Boolean?
 
             return post
         }

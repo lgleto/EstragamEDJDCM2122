@@ -8,4 +8,10 @@
         android:icon="@drawable/ic_stat_ic_notification"
         android:title="Logout"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_notification"
+        android:icon="@drawable/ic_baseline_send_24"
+        android:title="Notification"
+        app:showAsAction="always" />
 </menu>

@@ -30,5 +30,9 @@
         android:id="@+id/photoFragment"
         android:name="ipca.example.estragame.ui.home.PhotoFragment"
         android:label="fragment_photo"
-        tools:layout="@layout/fragment_photo" />
+        tools:layout="@layout/fragment_photo" >
+        <argument
+            android:name="photo_id"
+            app:argType="string" />
+    </fragment>
 </navigation>
